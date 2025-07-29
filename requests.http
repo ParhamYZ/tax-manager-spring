@@ -1,0 +1,15 @@
+GET http://localhost:8080/api/v1/tax-payers
+###
+GET http://localhost:8080/api/v1/tax-payers/1
+###
+POST http://localhost:8080/api/v1/tax-payers
+Content-Type: application/json
+
+{
+    "name": "Amin",
+    "nationalID": "1234567890",
+    "economicCode": "EC123456",
+    "postalCode": "1234567890",
+    "memoryID": "memory123",
+    "privateKey": "fjwklejfiowehggweg"
+}
