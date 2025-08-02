@@ -45,9 +45,8 @@ public class TaxPayerController {
         taxPayerService.updateTaxPayer(taxPayer);
     }
 
-    @PostMapping("{id}/activate")
-    public void activateTaxPayer(
-        @PathVariable int id) {
-        taxPayerService.activateTaxPayer(id);
+    @GetMapping("/getServerInformation")
+    public void getServerInformation() {
+        taxPayerService.getServerInformation();
     }
 }

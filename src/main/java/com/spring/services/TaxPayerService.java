@@ -1,17 +1,22 @@
 package com.spring.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
 import com.spring.models.TaxPayerModel;
 import com.spring.repositories.TaxPayerRepository;
 
-import ir.gov.tax.tpis.sdk.clients.TaxPublicApi;
-import ir.gov.tax.tpis.sdk.cryptography.Signatory;
-import ir.gov.tax.tpis.sdk.factories.Pkcs8SignatoryFactory;
-import ir.gov.tax.tpis.sdk.factories.TaxApiFactory;
-import ir.gov.tax.tpis.sdk.properties.TaxProperties;
+import ir.gov.tax.tpis.sdk.content.api.DefaultTaxApiClient;
+import ir.gov.tax.tpis.sdk.content.api.TaxApi;
+import ir.gov.tax.tpis.sdk.content.dto.ServerInformationModel;
+import ir.gov.tax.tpis.sdk.transfer.api.ObjectTransferApiImpl;
+import ir.gov.tax.tpis.sdk.transfer.api.TransferApi;
+import ir.gov.tax.tpis.sdk.transfer.config.ApiConfig;
+import ir.gov.tax.tpis.sdk.transfer.impl.signatory.SignatoryFactory;
 
 @Service
 public class TaxPayerService {
@@ -43,15 +48,22 @@ public class TaxPayerService {
         }
     }
 
-    public void activateTaxPayer(int id) {
-        TaxPayerModel taxPayer = getTaxPayer(id);
-        TaxProperties properties = new TaxProperties(taxPayer.getMemoryID());
-        TaxApiFactory taxApiFactory = new TaxApiFactory(API_URL, properties);
-        Pkcs8SignatoryFactory pkcs8SignatoryFactory = new Pkcs8SignatoryFactory();
-        Signatory signatory = pkcs8SignatoryFactory.create(
-                "PRIVATE_KEY_FILE",
-                "CERTIFICATE_FILE");
-        TaxPublicApi publicApi = taxApiFactory.createPublicApi(signatory);
-        taxPayerRepository.save(taxPayer);
+    public void getServerInformation() {
+        // final String URL = "private_key.pem";
+        final String MEMORY_ID = "A2WGP4";
+
+        ApiConfig apiConfig = null;
+        try {
+            apiConfig = new ApiConfig().transferSignatory(
+                    SignatoryFactory.getInstance().createPKCS8Signatory(
+                            new File("../Private.txt"), null));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        TransferApi transferApi = new ObjectTransferApiImpl(apiConfig);
+        TaxApi taxApi = new DefaultTaxApiClient(transferApi, MEMORY_ID);
+        ServerInformationModel serverInformation = taxApi.getServerInformation();
+        System.out.println("Server information: " + serverInformation);
     }
 }
