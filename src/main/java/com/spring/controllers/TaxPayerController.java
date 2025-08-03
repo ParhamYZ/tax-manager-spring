@@ -2,6 +2,8 @@ package com.spring.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import com.spring.models.TaxPayerModel;
 import com.spring.services.TaxPayerService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/tax-payers")
 public class TaxPayerController {
     private final TaxPayerService taxPayerService;
@@ -39,10 +42,17 @@ public class TaxPayerController {
         taxPayerService.createTaxPayer(taxPayer);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public void updateTaxPayer(
+            @PathVariable int id,
             @RequestBody TaxPayerModel taxPayer) {
-        taxPayerService.updateTaxPayer(taxPayer);
+        taxPayerService.updateTaxPayer(id, taxPayer);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteTaxPayer(
+            @PathVariable int id) {
+        taxPayerService.deleteTaxPayer(id);
     }
 
     @GetMapping("/getServerInformation")

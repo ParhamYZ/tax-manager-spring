@@ -3,8 +3,8 @@ package com.spring.services;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.spring.models.TaxPayerModel;
@@ -20,7 +20,6 @@ import ir.gov.tax.tpis.sdk.transfer.impl.signatory.SignatoryFactory;
 
 @Service
 public class TaxPayerService {
-    private static final String API_URL = "https://tp.tax.gov.ir/requestsmanager";
     private TaxPayerRepository taxPayerRepository;
 
     public TaxPayerService(TaxPayerRepository taxPayerRepository) {
@@ -40,12 +39,17 @@ public class TaxPayerService {
                 .orElseThrow(() -> new RuntimeException("TaxPayer not found with id: " + id));
     }
 
-    public void updateTaxPayer(TaxPayerModel taxPayer) {
-        if (taxPayerRepository.existsById(taxPayer.getId())) {
-            taxPayerRepository.save(taxPayer);
-        } else {
-            throw new RuntimeException("TaxPayer not found with id: " + taxPayer.getId());
-        }
+    public void updateTaxPayer(int id, TaxPayerModel taxPayer) {
+        TaxPayerModel existing = taxPayerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("TaxPayer not found with id: " + id));
+        BeanUtils.copyProperties(taxPayer, existing, "id"); // skips id
+        taxPayerRepository.save(existing);
+    }
+
+    public void deleteTaxPayer(int id) {
+        TaxPayerModel existing = taxPayerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("TaxPayer not found with id: " + id));
+        taxPayerRepository.delete(existing);
     }
 
     public void getServerInformation() {
