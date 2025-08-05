@@ -63,3 +63,17 @@ DELETE http://localhost:8080/api/v1/customers/1
 ###
 GET http://localhost:8080/api/v1/customers/customer-types
 ###
+//----------------------------Stuff ID APIs----------------------------
+GET http://localhost:8080/api/v1/stuff-ids
+###
+POST http://localhost:8080/api/v1/stuff-ids
+Content-Type: application/json
+
+{
+    "stuffId": "1235253123455",
+    "name": "Amin",
+    "vatRate": 10,
+    "privateID": true,
+    "stuffIdType": "شناسه خصوصی (خدمات)",
+    "registrationDate": "2020-02-20"
+}

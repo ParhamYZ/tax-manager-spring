@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "tax_payer")
+@Table(name = "tax_payer_model")
 public class TaxPayerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class TaxPayerModel {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String nationalID;
+    private String nationalId;
     @Column(nullable = false)
     private String economicCode;
     private String registrationNumber;
