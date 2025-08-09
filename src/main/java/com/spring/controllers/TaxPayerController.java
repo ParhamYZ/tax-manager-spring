@@ -30,7 +30,7 @@ public class TaxPayerController {
         return taxPayerService.getAllTaxPayers();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public TaxPayerModel getTaxPayer(
             @PathVariable int id) {
         return taxPayerService.getTaxPayer(id);
@@ -42,17 +42,24 @@ public class TaxPayerController {
         taxPayerService.createTaxPayer(taxPayer);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void updateTaxPayer(
             @PathVariable int id,
             @RequestBody TaxPayerModel taxPayer) {
         taxPayerService.updateTaxPayer(id, taxPayer);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteTaxPayer(
             @PathVariable int id) {
         taxPayerService.deleteTaxPayer(id);
+    }
+
+    @PostMapping("/{taxpayerId}/stuff-ids/{stuffidId}")
+    public void addStuffIdToTaxPayer(
+    @PathVariable int taxpayerId,
+    @PathVariable int stuffidId) {
+    taxPayerService.addStuffIdToTaxPayer(taxpayerId, stuffidId);
     }
 
     @GetMapping("/getServerInformation")

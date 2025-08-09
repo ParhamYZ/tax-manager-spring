@@ -1,7 +1,10 @@
 package com.spring.models;
 
 import java.time.LocalDate;
-import com.spring.enums.CustomerType;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.enums.StuffIdType;
 
 import jakarta.persistence.Column;
@@ -11,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,4 +38,7 @@ public class StuffIdModel {
     @Column(nullable = false)
     private StuffIdType stuffIdType;
     private LocalDate registrationDate;
+    @ManyToMany(mappedBy = "stuffIdSet")
+    @JsonIgnore
+    private Set<TaxPayerModel> taxPayerSet = new HashSet<>();
 }

@@ -31,7 +31,7 @@ public class CustomerModel {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private String nationalID;
+    private String nationalId;
     @Column(nullable = false)
     private String economicCode;
     private String registrationNumber;

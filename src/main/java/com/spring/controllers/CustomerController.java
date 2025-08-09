@@ -31,7 +31,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public CustomerModel getCustomer(
             @PathVariable int id) {
         return customerService.getCustomer(id);
@@ -43,19 +43,19 @@ public class CustomerController {
         customerService.createCustomer(taxPayer);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void updateCustomer(
             @PathVariable int id,
             @RequestBody CustomerModel customer) {
-                customerService.updateCustomer(id, customer);
+        customerService.updateCustomer(id, customer);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteCustomer(
             @PathVariable int id) {
-                customerService.deleteCustomer(id);
+        customerService.deleteCustomer(id);
     }
-    
+
     @GetMapping("/customer-types")
     public CustomerType[] getCustomerTypes() {
         return CustomerType.values();

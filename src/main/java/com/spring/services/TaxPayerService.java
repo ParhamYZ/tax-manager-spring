@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.models.StuffIdModel;
 import com.spring.models.TaxPayerModel;
+import com.spring.repositories.StuffIdRepository;
 import com.spring.repositories.TaxPayerRepository;
 
 import ir.gov.tax.tpis.sdk.content.api.DefaultTaxApiClient;
@@ -21,9 +24,11 @@ import ir.gov.tax.tpis.sdk.transfer.impl.signatory.SignatoryFactory;
 @Service
 public class TaxPayerService {
     private TaxPayerRepository taxPayerRepository;
+    private StuffIdRepository stuffIdRepository;
 
-    public TaxPayerService(TaxPayerRepository taxPayerRepository) {
+    public TaxPayerService(TaxPayerRepository taxPayerRepository, StuffIdRepository stuffIdRepository) {
         this.taxPayerRepository = taxPayerRepository;
+        this.stuffIdRepository = stuffIdRepository;
     }
 
     public List<TaxPayerModel> getAllTaxPayers() {
@@ -50,6 +55,17 @@ public class TaxPayerService {
         TaxPayerModel existing = taxPayerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("TaxPayer not found with id: " + id));
         taxPayerRepository.delete(existing);
+    }
+
+    @Transactional
+    public void addStuffIdToTaxPayer(int taxPayerId, int stuffId) {
+        TaxPayerModel taxPayerModel = taxPayerRepository.findById(taxPayerId)
+                .orElseThrow(() -> new RuntimeException("TaxPayer not found with id: " + taxPayerId));
+        StuffIdModel stuffIdModel = stuffIdRepository.findById(stuffId)
+                .orElseThrow(() -> new RuntimeException("StuffId not found with id: " + stuffId));
+        
+        taxPayerModel.getStuffIdSet().add(stuffIdModel);
+        taxPayerRepository.save(taxPayerModel);
     }
 
     public void getServerInformation() {

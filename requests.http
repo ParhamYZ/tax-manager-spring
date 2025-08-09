@@ -8,10 +8,10 @@ Content-Type: application/json
 
 {
     "name": "Amin",
-    "nationalID": "1234567890",
+    "nationalId": "1234567890",
     "economicCode": "EC123456",
     "postalCode": "1234567890",
-    "memoryID": "memory123",
+    "memoryId": "memory123",
     "privateKey": "fjwklejfiowehggweg"
 }
 ###
@@ -20,14 +20,16 @@ Content-Type: application/json
 
 {
     "name": "Amin Updated",
-    "nationalID": "1234567890",
+    "nationalId": "1234567890",
     "economicCode": "EC123456",
     "postalCode": "1234567890",
-    "memoryID": "memory123",
+    "memoryId": "memory123",
     "privateKey": "fjwklejfiowehggweg"
 }
 ###
 DELETE http://localhost:8080/api/v1/tax-payers/1
+###
+POST http://localhost:8080/api/v1/tax-payers/1/stuff-ids/3
 ###
 //----------------------------External APIs----------------------------
 GET http://localhost:8080/api/v1/customers/getServerInformation
@@ -42,7 +44,7 @@ Content-Type: application/json
 
 {
     "name": "Amin",
-    "nationalID": "1234567890",
+    "nationalId": "1234567890",
     "economicCode": "EC123456",
     "postalCode": "1234567890",
     "customerType": "حقوقی"
@@ -53,7 +55,7 @@ Content-Type: application/json
 
 {
     "name": "Amin Updated",
-    "nationalID": "1234567890",
+    "nationalId": "1234567890",
     "economicCode": "EC123456",
     "postalCode": "1234567890",
     "customerType": "حقوقی"
@@ -70,7 +72,7 @@ POST http://localhost:8080/api/v1/stuff-ids
 Content-Type: application/json
 
 {
-    "stuffId": "1235253123455",
+    "stuffId": "1235253123451",
     "name": "Amin",
     "vatRate": 10,
     "privateID": true,
