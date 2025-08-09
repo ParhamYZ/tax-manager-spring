@@ -3,6 +3,7 @@ package com.spring.services;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class StuffIdService {
         final String IMPORTED = "وارداتي";
         final String PRIVATE = "اختصاصي";
         final String PUBLIC = "عمومي";
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             List<StuffIdModel> stuffIdList = new ArrayList<>();
             String line;
